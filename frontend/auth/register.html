@@ -1,0 +1,30 @@
+<!-- File: frontend/auth/register.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Register</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="container">
+    <h2 id="form-title">Register</h2>
+    <form id="register-form">
+      <input type="text" id="name" placeholder="Name" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <input type="text" id="phone" placeholder="Phone" required />
+      <input type="text" id="area" placeholder="Area" required />
+
+      <button type="submit">Register</button>
+    </form>
+    <p id="message"></p>
+    <p>
+  Already have an account?
+ <a href="#" id="login-link">Login</a>
+</p>
+  </div>
+
+  <script src="../js/register.js"></script>
+</body>
+</html> 

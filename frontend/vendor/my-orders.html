@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Orders</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header>
+    <h1>My Orders</h1>
+  </header>
+
+  <main>
+    <section id="orders" class="order-list">
+      <!-- Orders will be dynamically inserted here -->
+    </section>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        alert("Login required");
+        window.location.href = "../auth/login.html";
+        return;
+      }
+
+      async function loadOrders() {
+        try {
+          const res = await fetch("http://localhost:3000/api/vendor/orders", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          const data = await res.json();
+
+          if (res.ok) {
+            renderOrders(data.orders);
+          } else {
+            document.getElementById("orders").innerText = data.message || "Failed to load orders.";
+          }
+        } catch (err) {
+          document.getElementById("orders").innerText = "Error loading orders.";
+        }
+      }
+
+      function renderOrders(orders) {
+        const container = document.getElementById("orders");
+        container.innerHTML = "";
+
+        if (!orders.length) {
+          container.innerText = "No orders found.";
+          return;
+        }
+
+        orders.forEach((order) => {
+          const div = document.createElement("div");
+          div.className = "order-card";
+          div.innerHTML = `
+            <h3>Product: ${order.product.name}</h3>
+            <p>Price: ₹${order.product.price}</p>
+            <p>Quantity: ${order.quantity}</p>
+            <p>Status: ${order.status || "Pending"}</p>
+          `;
+          container.appendChild(div);
+        });
+      }
+
+      loadOrders();
+    });
+  </script>
+</body>
+</html>
